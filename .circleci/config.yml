@@ -2,11 +2,11 @@ version: 2
 
 attach_workspace: &attach_workspace
   attach_workspace:
-    at: '~/project/packages/my-proj'
+    at: '~/project'
 
 persist_to_workspace: &persist_to_workspace
   persist_to_workspace:
-    root: '~/project/packages/my-proj'
+    root: '~/project'
 
 docker_node: &docker_node
   docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
