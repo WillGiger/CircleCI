@@ -1,0 +1,64 @@
+version: 2
+
+attach_workspace: &attach_workspace
+  attach_workspace:
+    at: '.'
+
+persist_workspace: &persist_workspace
+  persist_workspace:
+    root: '.'
+    paths:
+      - '.'
+
+docker_node: &docker_node
+  docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
+
+workflows:
+  version: 2
+
+  merge_pipeline:
+    jobs:
+      - install_dependencies
+      - unit_tests:
+        requires: [install_dependencies]
+      - linting:
+          requires: [install_dependencies]
+      - publish:
+          requires: [ linting, unit_tests]
+
+
+jobs:
+  install_dependencies:
+    steps:
+      - checkout
+      - restore_cache:
+          keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
+      - run: |
+          npm install
+
+      - save_cache:
+          key:
+          paths: ['node_modules']
+      - *persist_workspace
+
+  unit_tests:
+    steps:
+      - *attach_workspace
+      - run: |
+          npm test
+
+  lint:
+    steps:
+      - *attach_workspace
+      - run: |
+          npm run lint
+
+
+  publish:
+    steps:
+      - *attach_workspace
+      - run: |
+          npm publish
+
+
+
