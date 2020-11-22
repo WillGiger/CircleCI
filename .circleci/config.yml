@@ -70,7 +70,7 @@ jobs:
     <<: *defaults
     environment:
       NPM_REGISTRY: https://registry.npmjs.org/
-      NPM_USER: CirclCIAuto
+      NPM_USER: circleci-auto
       NPM_EMAIL: brextrodesign@gmail.com
     steps:
       - *attach_workspace
