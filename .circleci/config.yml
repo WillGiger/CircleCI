@@ -21,10 +21,10 @@ workflows:
       - install_dependencies
       - unit_tests:
         requires: [install_dependencies]
-      - linting:
+      - lint:
           requires: [install_dependencies]
       - publish:
-          requires: [ linting, unit_tests]
+          requires: [ lint, unit_tests]
 
 
 jobs:
