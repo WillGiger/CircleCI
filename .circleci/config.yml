@@ -70,8 +70,9 @@ jobs:
     <<: *defaults
     environment:
       NPM_REGISTRY: https://registry.npmjs.org/
-      NPM_USER: circleci-auto
+      NPM_USER: wgiger6
       NPM_EMAIL: brextrodesign@gmail.com
+      NPM_TOKEN: ${{secrets.NPM_TOKEN}}
     steps:
       - *attach_workspace
       - restore_cache:
