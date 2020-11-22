@@ -23,7 +23,7 @@ workflows:
       - unit_tests:
           requires: [install_dependencies]
       - lint:
-          requires: [install_dependencies]
+          requires: [unit_tests]
       - publish:
           requires: [ lint, unit_tests]
 
@@ -33,13 +33,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
+          keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
       - run:
           command: |
             cd ~/project/packages/my-proj
             npm install
       - save_cache:
-          key: 'v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}'
+          key: 'v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}'
           paths: ['~/project/packages/my-proj/node_modules']
       - *persist_to_workspace
 
@@ -49,7 +49,7 @@ jobs:
       - *attach_workspace
       - run: ls
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+          keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}']
       - run:
           command: |
             cd project/packages/my-proj
@@ -62,7 +62,7 @@ jobs:
       - *attach_workspace
       - run: ls
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+          keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}']
       - run:
           command: |
             ls
