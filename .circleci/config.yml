@@ -28,14 +28,14 @@ workflows:
 jobs:
   install_dependencies:
     <<: *docker_node
-    working_directory: ~project/packages/my-proj
+
     steps:
-      - checkout:
-          path: ~project/
+      - checkout
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
       - run:
           command: |
+            pwd
             ls
             npm install
       - save_cache:
