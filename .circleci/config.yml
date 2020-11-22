@@ -33,13 +33,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
+          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
       - run:
           command: |
             cd ~/project/packages/my-proj
             npm install
       - save_cache:
-          key: 'v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}'
+          key: 'v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}'
           paths: ['~/project/packages/my-proj/node_modules']
       - *persist_to_workspace
 
@@ -73,7 +73,8 @@ jobs:
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
       - run: |
-          cd ~/project/packages/my-proj
+          cd project/packages/my-proj
+          npm publish
 
 
 
