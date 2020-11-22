@@ -29,6 +29,7 @@ workflows:
 
 jobs:
   install_dependencies:
+    <<: *docker_node
     steps:
       - checkout
       - restore_cache:
@@ -42,12 +43,14 @@ jobs:
       - *persist_workspace
 
   unit_tests:
+    <<: *docker_node
     steps:
       - *attach_workspace
       - run: |
           npm test
 
   lint:
+    <<: *docker_node
     steps:
       - *attach_workspace
       - run: |
@@ -55,6 +58,7 @@ jobs:
 
 
   publish:
+    <<: *docker_node
     steps:
       - *attach_workspace
       - run: |
