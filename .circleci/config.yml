@@ -9,7 +9,7 @@ persist_to_workspace: &persist_to_workspace
     root: '~/project'
 
 docker_node: &docker_node
-  docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
+  docker: [{image: 'circleci/node:10'}]
 
 workflows:
   version: 2
@@ -34,6 +34,10 @@ jobs:
       - run:
           command: |
             ls
+            cd packages/my-proj
+            ls
+            npm install
+
 
       - save_cache:
           key: 'v1-npm-deps-{{ checksum "package-lock.json"}}'
