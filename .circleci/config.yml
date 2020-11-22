@@ -46,7 +46,6 @@ jobs:
 
   unit_tests:
     <<: *docker_node
-    work
     steps:
       - checkout
       - *attach_workspace
