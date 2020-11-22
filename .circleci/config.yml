@@ -7,6 +7,7 @@ attach_workspace: &attach_workspace
 persist_to_workspace: &persist_to_workspace
   persist_to_workspace:
     root: '~/project'
+    path: '~/project'
 
 docker_node: &docker_node
   docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
@@ -27,19 +28,20 @@ workflows:
 jobs:
   install_dependencies:
     <<: *docker_node
-    working_directory: ~project/
+    working_directory: ~project/packages/my-proj
     steps:
-      - checkout
+      - checkout:
+          path: ~project/
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
+          keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
       - run:
           command: |
             ls
-            cd packages/my-proj
             npm install
       - save_cache:
-          key: 'v1-npm-deps-{{ checksum "packages/my-proj/package-lock.json"}}'
+          key: 'v1-npm-deps-{{ checksum "package-lock.json"}}'
           paths: ['node_modules']
+      - *persist_to_workspace
 
   unit_tests:
     <<: *docker_node
@@ -55,6 +57,7 @@ jobs:
       - checkout
       - *attach_workspace
       - run: |
+          ls
           npm run lint
 
 
