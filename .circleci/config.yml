@@ -69,7 +69,7 @@ jobs:
             cd ~/project/packages/my-proj
             npm run lint
 
-  publish:
+  publish_lib:
     <<: *defaults
     - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
