@@ -24,7 +24,7 @@ workflows:
           requires: [install_dependencies]
       - lint:
           requires: [unit_tests]
-      - publish:
+      - publish_lib:
           requires: [ lint, unit_tests]
 
 jobs:
@@ -66,15 +66,15 @@ jobs:
             cd project/packages/my-proj
             npm run lint
 
-  # publish_lib:
-  #   <<: *defaults
-  #   - restore_cache:
-  #         keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
-  #   steps:
-  #     - *attach_workspace
-  #     - run: |
-  #         cd ~/project/packages/my-proj
-  #         npm publish
+  publish_lib:
+    <<: *defaults
+    steps:
+      - *attach_workspace
+      - restore_cache:
+        keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+      - run: |
+          cd ~/project/packages/my-proj
+          npm publish
 
 
 
