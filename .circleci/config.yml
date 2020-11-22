@@ -36,8 +36,6 @@ jobs:
       - run:
           working_directory: ./packages/my-proj
           command: |
-            pwd
-            ls
             npm install
       - save_cache:
           key: 'v1-npm-deps-{{ checksum "package-lock.json"}}'
@@ -47,19 +45,18 @@ jobs:
   unit_tests:
     <<: *docker_node
     steps:
-      - checkout
+      - working_directory: ./packages/my-proj
       - *attach_workspace
       - run:
-          working_directory: ./packages/my-proj
           command: |
             npm test
 
   lint:
     <<: *docker_node
     steps:
+      - working_directory: ./packages/my-proj
       - *attach_workspace
       - run:
-          working_directory: ./packages/my-proj
           command: |
             npm run lint
 
