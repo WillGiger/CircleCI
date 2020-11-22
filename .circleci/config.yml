@@ -47,7 +47,6 @@ jobs:
     <<: *defaults
     steps:
       - *attach_workspace
-      - run: ls
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}']
       - run:
@@ -57,10 +56,8 @@ jobs:
 
   lint:
     <<: *defaults
-    working_directory: ./packages/my-proj
     steps:
       - *attach_workspace
-      - run: ls
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}']
       - run:
