@@ -35,6 +35,7 @@ jobs:
       - run:
           command: |
             cd packages/my-proj
+            ls
             npm install
 
 
@@ -46,6 +47,7 @@ jobs:
   unit_tests:
     <<: *docker_node
     steps:
+      - checkout
       - *attach_workspace
       - run: |
           npm test
@@ -53,6 +55,7 @@ jobs:
   lint:
     <<: *docker_node
     steps:
+      - checkout
       - *attach_workspace
       - run: |
           npm run lint
@@ -61,6 +64,7 @@ jobs:
   publish:
     <<: *docker_node
     steps:
+      - checkout
       - *attach_workspace
       - run: |
           npm publish
