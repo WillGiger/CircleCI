@@ -68,13 +68,20 @@ jobs:
 
   publish_lib:
     <<: *defaults
+    environment:
+      NPM_REGISTRY:
+      NPM_USER: CirclCIAuto
+      NPM_EMAIL: brextrodesign@gmail.com
     steps:
       - *attach_workspace
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+          keys: ['v1-npm-deps-{{ checksum "project/packages/my-proj/package-lock.json"}}']
       - run: |
           cd project/packages/my-proj
-          npm publish
+          npm i npm-cli-adduser
+          npx npm-cli-adduser -u $NPM_USER $NPM_EMAIL -p $NPM_TOKEN -r NPM_REGISTRY
+          npm version $CIRCLE_TAG
+          npm publish --registry $NPM_REGISTRY
 
 
 
