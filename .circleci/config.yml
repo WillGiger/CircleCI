@@ -46,6 +46,7 @@ jobs:
     <<: *docker_node
     steps:
       - *attach_workspace
+      - checkout
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
       - run:
@@ -58,10 +59,12 @@ jobs:
     working_directory: ./packages/my-proj
     steps:
       - *attach_workspace
+      - checkout
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
       - run:
           command: |
+            ls
             cd ~/project/packages/my-proj
             npm run lint
 
