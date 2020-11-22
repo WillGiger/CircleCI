@@ -28,7 +28,7 @@ workflows:
 jobs:
   install_dependencies:
     <<: *docker_node
-
+    working_directory: ./packages/my-proj
     steps:
       - checkout
       - restore_cache:
