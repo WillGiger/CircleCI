@@ -28,8 +28,10 @@ workflows:
 jobs:
   install_dependencies:
     <<: *docker_node
+    working_directory: ~project/packages/my-proj
     steps:
-      - checkout
+      - checkout:
+          path: ~project/
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
       - run:
@@ -37,8 +39,6 @@ jobs:
             cd packages/my-proj
             ls
             npm install
-
-
       - save_cache:
           key: 'v1-npm-deps-{{ checksum "packages/my-proj/package-lock.json"}}'
           paths: ['node_modules']
@@ -46,6 +46,7 @@ jobs:
 
   unit_tests:
     <<: *docker_node
+    work
     steps:
       - checkout
       - *attach_workspace
