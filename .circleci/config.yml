@@ -29,13 +29,12 @@ jobs:
   install_dependencies:
     <<: *docker_node
     steps:
+      - checkout
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
       - run:
           command: |
-            ls
             cd packages/my-proj
-            ls
             npm install
 
 
