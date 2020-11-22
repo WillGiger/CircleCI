@@ -44,8 +44,8 @@ jobs:
 
   unit_tests:
     <<: *docker_node
+    working_directory: ./packages/my-proj
     steps:
-      - working_directory: ./packages/my-proj
       - *attach_workspace
       - run:
           command: |
@@ -53,8 +53,8 @@ jobs:
 
   lint:
     <<: *docker_node
+    working_directory: ./packages/my-proj
     steps:
-      - working_directory: ./packages/my-proj
       - *attach_workspace
       - run:
           command: |
@@ -63,8 +63,8 @@ jobs:
 
   publish:
     <<: *docker_node
+    working_directory: ./packages/my-proj
     steps:
-      - checkout
       - *attach_workspace
       - run: |
           npm publish
