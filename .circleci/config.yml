@@ -24,7 +24,6 @@ workflows:
       - publish:
           requires: [ lint, unit_tests]
 
-C:\Users\bgigs\Documents\Visual Studio 2019\circleci\packages\my-proj
 jobs:
   install_dependencies:
     <<: *docker_node
