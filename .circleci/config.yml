@@ -69,7 +69,7 @@ jobs:
   publish_lib:
     <<: *defaults
     environment:
-      NPM_REGISTRY:
+      NPM_REGISTRY: https://registry.npmjs.org/
       NPM_USER: CirclCIAuto
       NPM_EMAIL: brextrodesign@gmail.com
     steps:
