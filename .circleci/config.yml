@@ -29,7 +29,7 @@ jobs:
   install_dependencies:
     <<: *docker_node
     steps:
-      - checkout
+      - *attach_workspace
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
       - run: |
