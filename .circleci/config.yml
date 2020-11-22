@@ -9,7 +9,7 @@ persist_to_workspace: &persist_to_workspace
     root: '~/project'
 
 docker_node: &docker_node
-  docker: [{image: 'circleci/node:10'}]
+  docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
 
 workflows:
   version: 2
