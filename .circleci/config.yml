@@ -33,8 +33,6 @@ jobs:
           keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
       - run: |
           ls
-          cd package
-          ls
           npm install
 
       - save_cache:
