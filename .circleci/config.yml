@@ -49,10 +49,10 @@ jobs:
       - *attach_workspace
       - run: ls
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+          keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}']
       - run:
           command: |
-            cd ~/project/packages/my-proj
+            cd project/packages/my-proj
             npm test
 
   lint:
@@ -61,11 +61,11 @@ jobs:
     steps:
       - *attach_workspace
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
+          keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}']
       - run:
           command: |
             ls
-            cd ~/project/packages/my-proj
+            cd project/packages/my-proj
             npm run lint
 
   # publish_lib:
