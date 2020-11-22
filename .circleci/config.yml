@@ -2,12 +2,12 @@ version: 2
 
 attach_workspace: &attach_workspace
   attach_workspace:
-    at: '~/project'
+    at: '.'
 
 persist_to_workspace: &persist_to_workspace
   persist_to_workspace:
-    root: '~/project'
-    path: '~/project'
+    root: '.'
+    path: '.'
 
 docker_node: &docker_node
   docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
@@ -48,16 +48,18 @@ jobs:
     steps:
       - checkout
       - *attach_workspace
-      - run: |
+      - run:
+          working_directory: ./packages/my-proj
+          command: |
           npm test
 
   lint:
     <<: *docker_node
     steps:
-      - checkout
       - *attach_workspace
-      - run: |
-          ls
+      - run:
+          working_directory: ./packages/my-proj
+          command: |
           npm run lint
 
 
