@@ -2,16 +2,16 @@ version: 2
 
 attach_workspace: &attach_workspace
   attach_workspace:
-    at: './packages/my-proj'
+    at: '~/project'
 
 persist_to_workspace: &persist_to_workspace
   persist_to_workspace:
-    root: './packages/my-proj'
+    root: '~'
     paths:
-      '.'
+      'project'
 
-docker_node: &docker_node
-  docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
+defaults: &defaults
+  docker: [{image: 'circleci/node:12.19-browsers'}]
 
 workflows:
   version: 2
@@ -32,23 +32,25 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
+          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}', 'v1-npm-deps']
       - run:
-          working_directory: ./packages/my-proj
           command: |
+            cd ~/project/packages/my-proj
             npm install
       - save_cache:
-          key: 'v1-npm-deps-{{ checksum "package-lock.json"}}'
+          key: 'v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}'
           paths: ['node_modules']
       - *persist_to_workspace
 
   unit_tests:
     <<: *docker_node
-    working_directory: ./packages/my-proj
     steps:
       - *attach_workspace
+      - restore_cache:
+          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
       - run:
           command: |
+            cd ~/project/packages/my-proj
             npm test
 
   lint:
@@ -56,17 +58,22 @@ jobs:
     working_directory: ./packages/my-proj
     steps:
       - *attach_workspace
+      - restore_cache:
+          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
       - run:
           command: |
+            cd ~/project/packages/my-proj
             npm run lint
 
 
   publish:
     <<: *docker_node
-    working_directory: ./packages/my-proj
+    - restore_cache:
+          keys: ['v1-npm-deps-{{ checksum "~/project/packages/my-proj/package-lock.json"}}']
     steps:
       - *attach_workspace
       - run: |
+          cd ~/project/packages/my-proj
           npm publish
 
 
