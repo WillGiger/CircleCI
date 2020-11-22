@@ -9,7 +9,7 @@ persist_to_workspace: &persist_to_workspace
     root: '~/project'
 
 docker_node: &docker_node
-  docker: [{image: 'halplatform/hal-build-environments:node10.10-debian9'}]
+  docker: [{image: 'halplatform/hal-build-environments:node11.10.0-linux'}]
 
 workflows:
   version: 2
@@ -31,7 +31,7 @@ jobs:
     steps:
       - restore_cache:
           keys: ['v1-npm-deps-{{ checksum "package-lock.json"}}', 'v1-npm-deps']
-      - run: ls
+      - run: ls -la
 
       - save_cache:
           key: 'v1-npm-deps-{{ checksum "package-lock.json"}}'
