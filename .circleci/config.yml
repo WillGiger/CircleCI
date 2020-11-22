@@ -11,6 +11,7 @@ persist_to_workspace: &persist_to_workspace
       'project'
 
 defaults: &defaults
+  working_directory: '~/project'
   docker: [{image: 'circleci/node:12.19-browsers'}]
 
 workflows:
@@ -67,7 +68,6 @@ jobs:
             ls
             cd ~/project/packages/my-proj
             npm run lint
-
 
   publish:
     <<: *defaults
