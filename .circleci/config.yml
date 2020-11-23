@@ -34,7 +34,7 @@ workflows:
       - publish_lib:
           filters:
             tags:
-              only: *regex
+              only: /.*/
             branches:
               ignore: /.*/
 
