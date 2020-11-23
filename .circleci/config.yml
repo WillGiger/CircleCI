@@ -21,7 +21,7 @@ workflows:
 
   pr_pipeline:
     jobs:
-      - install_dependencies
+      - install_dependencies:
           filter:
             branches:
               ignore:
