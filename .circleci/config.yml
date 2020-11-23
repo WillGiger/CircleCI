@@ -1,6 +1,6 @@
 version: 2
 
-regex: &regex /^\d+.\.\d+\.\d
+regex: &regex .*
 
 attach_workspace: &attach_workspace
   attach_workspace:
@@ -22,10 +22,9 @@ workflows:
   pr_pipeline:
     jobs:
       - install_dependencies:
-          filter:
+          filters:
             branches:
-              ignore:
-                master
+              ignore: master
       - unit_tests:
           requires: [install_dependencies]
       - lint:
