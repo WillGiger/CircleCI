@@ -1,5 +1,7 @@
 version: 2
 
+regex: &regex /^\d+.\.\d+\.\d
+
 attach_workspace: &attach_workspace
   attach_workspace:
     at: '~/project'
@@ -17,15 +19,25 @@ defaults: &defaults
 workflows:
   version: 2
 
-  merge_pipeline:
+  pr_pipeline:
     jobs:
       - install_dependencies
+          filter:
+            branches:
+              ignore:
+                master
       - unit_tests:
           requires: [install_dependencies]
       - lint:
           requires: [install_dependencies]
+  merge_pipeline:
+    jobs:
       - publish_lib:
-          requires: [ lint, unit_tests]
+          filters:
+            tags:
+              only: *regex
+            branches:
+              ignore: /.*/
 
 jobs:
   install_dependencies:
@@ -80,6 +92,7 @@ jobs:
           cd project/packages/my-proj
           npm i npm-cli-adduser
           npx npm-cli-adduser -u $NPM_USER $NPM_EMAIL -p $PASS -r $NPM_REGISTRY
+          npm version $CIRCLE_TAG
           npm publish --registry $NPM_REGISTRY
 
 
